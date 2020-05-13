@@ -41,10 +41,11 @@ public class secondactivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Intent intent = new Intent(getApplicationContext(), thirdactivity.class);
-            intent.putExtra("note", i);
-            startActivity(intent);
-
+            if(i==10) {
+                Intent intent = new Intent(getApplicationContext(), thirdactivity.class);
+                intent.putExtra("note", i);
+                startActivity(intent);
+            }
         }
     });
 }

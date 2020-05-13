@@ -2,6 +2,7 @@ package saurabh.best.sec;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 public class thirdactivity extends AppCompatActivity {
@@ -10,5 +11,6 @@ public class thirdactivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thirdactivity);
+        Intent intent=getIntent();
     }
 }
