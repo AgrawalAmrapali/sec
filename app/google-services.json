@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "47045110422",
+    "firebase_url": "https://student-event-connector.firebaseio.com",
+    "project_id": "student-event-connector",
+    "storage_bucket": "student-event-connector.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47045110422:android:a6f421403099fb2cf770b7",
+        "android_client_info": {
+          "package_name": "saurabh.best.sec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47045110422-54j7ahac9golta19pefs9g4t8kpnp32s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "saurabh.best.sec",
+            "certificate_hash": "36b18f501245a040d577d849505d51d81f75e17e"
+          }
+        },
+        {
+          "client_id": "47045110422-0rea71pljlm4c3hoh52oq7lhfea819qk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAegWtTdAtICDu_aAEQzrxT8TWo55cjzkI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "47045110422-0rea71pljlm4c3hoh52oq7lhfea819qk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
