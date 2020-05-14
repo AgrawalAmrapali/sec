@@ -18,10 +18,11 @@ public class secondactivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secondactivity);
 
-     setTitle("Menu");
-    setContentView(R.layout.activity_secondactivity);
-    ListView listView = (ListView) findViewById(R.id.listView);
-    final ArrayList<String> menu = new ArrayList<String>();
+        setTitle("Menu");
+        setContentView(R.layout.activity_secondactivity);
+        //creating list in a list view
+        ListView listView = (ListView) findViewById(R.id.listView);
+        final ArrayList<String> menu = new ArrayList<String>();
         menu.add("Create group");
         menu.add("Join group");
         menu.add("Find people");
@@ -34,19 +35,20 @@ public class secondactivity extends AppCompatActivity {
         menu.add("Chat");
         menu.add("Profile");
         menu.add("Logout");
-    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.activity_list_item, menu);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, menu);
         listView.setAdapter(arrayAdapter);
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            if(i==10) {
-                Intent intent = new Intent(getApplicationContext(), thirdactivity.class);
-                intent.putExtra("note", i);
-                startActivity(intent);
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 10) {
+                    Intent intent = new Intent(getApplicationContext(), thirdactivity.class);
+                    intent.putExtra("note", i);
+                    startActivity(intent);
+                }
+
             }
-        }
-    });
-}
+        });
+    }
 }
