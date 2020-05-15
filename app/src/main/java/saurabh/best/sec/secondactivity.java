@@ -23,9 +23,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+
+
 public class secondactivity extends AppCompatActivity {
     DatabaseReference dRef;
     FirebaseAuth fAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +39,14 @@ public class secondactivity extends AppCompatActivity {
 
         setTitle("Menu");
         setContentView(R.layout.activity_secondactivity);
-        //creating list in a list view
         ListView listView = (ListView) findViewById(R.id.listView);
-        final ArrayList<String> menu = new ArrayList<String>();
+        ArrayList<String> menu = new ArrayList<String>();
+
+        setTitle("Menu");
+        setContentView(R.layout.activity_secondactivity);
+        //creating list in a list view
+        listView = (ListView) findViewById(R.id.listView);
+        menu = new ArrayList<String>();
         menu.add("Create group");
         menu.add("Join group");
         menu.add("Find people");
@@ -51,7 +59,9 @@ public class secondactivity extends AppCompatActivity {
         menu.add("Chat");
         menu.add("Profile");
         menu.add("Logout");
+
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, menu);
+
         listView.setAdapter(arrayAdapter);
 
 
@@ -74,7 +84,14 @@ public class secondactivity extends AppCompatActivity {
                 {
                     startActivity(new Intent(secondactivity.this,MyGroup.class));
 
+                }else if (i == 2) {
+                    //Find people
+                    Intent intent = new Intent(getApplicationContext(), findPeople.class);
+                    intent.putExtra("note", i);
+                    startActivity(intent);
                 }
+
+
 
             }
         });
@@ -103,29 +120,28 @@ public class secondactivity extends AppCompatActivity {
 
     }
 
-    private void RequestNewGroup() {   //creating alert box to create group in database
-        AlertDialog.Builder builder = new AlertDialog.Builder(secondactivity.this);
-        builder.setTitle("GROUP NAME");
-        final EditText e1 = new EditText(secondactivity.this);
-        e1.setHint(" e.g. Coding chef");
-        builder.setView(e1);
-        builder.setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (TextUtils.isEmpty(e1.getText().toString())) {
-                    Toast.makeText(secondactivity.this, "Enter Group name", Toast.LENGTH_SHORT).show();
-                } else {
-                    CreateGroup(e1.getText().toString());
+        private void RequestNewGroup () {   //creating alert box to create group in database
+            AlertDialog.Builder builder = new AlertDialog.Builder(secondactivity.this);
+            builder.setTitle("GROUP NAME");
+            final EditText e1 = new EditText(secondactivity.this);
+            e1.setHint(" e.g. Coding chef");
+            builder.setView(e1);
+            builder.setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (TextUtils.isEmpty(e1.getText().toString())) {
+                        Toast.makeText(secondactivity.this, "Enter Group name", Toast.LENGTH_SHORT).show();
+                    } else {
+                        CreateGroup(e1.getText().toString());
+                    }
+
                 }
-
-            }
-        }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
-        builder.show();
+            }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            builder.show();
+        }
     }
-
-}
