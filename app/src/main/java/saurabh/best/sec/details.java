@@ -1,5 +1,7 @@
 package saurabh.best.sec;
 
+import java.util.HashMap;
+
 public class details {
     int batch;
     String branch;
@@ -7,8 +9,16 @@ public class details {
     String email;
     String name;
     int reg;
+    HashMap<String,Boolean> groups;
     public details() {
+    }
 
+    public HashMap<String, Boolean> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(HashMap<String, Boolean> groups) {
+        this.groups = groups;
     }
 
     public String getName() {

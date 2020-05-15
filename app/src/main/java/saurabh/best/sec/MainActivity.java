@@ -28,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import java.lang.reflect.Member;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     Button b, b2;
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 member.setReg(Integer.parseInt(rn));
                 member.setEmail(em);
                 //pushing object in database
-                dbRef.push().setValue(member);
+//                dbRef.push().setValue(member);
                 //creating user with email password
                 fAuth.createUserWithEmailAndPassword(em, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
