@@ -48,7 +48,7 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         Log.d("info", "success");
-                        Intent i = new Intent(Login.this, MainActivity2.class);
+                        Intent i = new Intent(Login.this, secondactivity.class);
                         startActivity(i);
                         finish();
 

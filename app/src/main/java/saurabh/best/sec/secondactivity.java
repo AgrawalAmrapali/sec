@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class secondactivity extends AppCompatActivity {
+public class secondactivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class secondactivity extends AppCompatActivity {
      setTitle("Menu");
     setContentView(R.layout.activity_secondactivity);
     ListView listView = (ListView) findViewById(R.id.listView);
-    final ArrayList<String> menu = new ArrayList<String>();
+     ArrayList<String> menu = new ArrayList<String>();
         menu.add("Create group");
         menu.add("Join group");
         menu.add("Find people");
@@ -34,7 +34,7 @@ public class secondactivity extends AppCompatActivity {
         menu.add("Chat");
         menu.add("Profile");
         menu.add("Logout");
-    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.activity_list_item, menu);
+    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, menu);
         listView.setAdapter(arrayAdapter);
 
 
@@ -46,7 +46,19 @@ public class secondactivity extends AppCompatActivity {
                 intent.putExtra("note", i);
                 startActivity(intent);
             }
+            if(i==11){
+                //logout user
+
+            }
+            if(i==2){
+               //Find people
+                Intent intent = new Intent(getApplicationContext(), findPeople.class);
+                intent.putExtra("note", i);
+                startActivity(intent);
+            }
+
         }
+
     });
 }
 }

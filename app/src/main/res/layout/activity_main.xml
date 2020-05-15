@@ -58,14 +58,15 @@
         android:layout_marginLeft="100dp"
         android:layout_marginTop="50dp"
         android:text="REGISTER"/>
+
     <Button
+        android:id="@+id/b2"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:id="@+id/b2"
         android:layout_below="@id/b1"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="50dp"
-        android:text="login"/>
+        android:layout_marginTop="-4dp"
+        android:text="login" />
 
 
 </RelativeLayout>

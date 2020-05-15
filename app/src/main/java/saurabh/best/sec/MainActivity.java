@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     EditText name, password, email, regno;
     TextView sign;
     //creating firebase authentication memeber
-    FirebaseAuth fAuth;
+     public static FirebaseAuth fAuth;
     //details class object
     details member;
     //reference of our databse object
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        fAuth = FirebaseAuth.getInstance();
+       fAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         b = findViewById(R.id.b1);
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, MainActivity2.class);
             startActivity(intent);
             finish();
+
         }
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,9 +115,10 @@ public class MainActivity extends AppCompatActivity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, Login.class);
+                Intent i = new Intent(MainActivity.this,Login.class);
                 startActivity(i);
                 finish();
+
             }
         });
 
