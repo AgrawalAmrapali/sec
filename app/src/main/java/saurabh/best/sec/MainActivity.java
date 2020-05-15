@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
         email = findViewById(R.id.e3);
         password = findViewById(R.id.e4);
         sign = findViewById(R.id.t1);
-        dbRef = FirebaseDatabase.getInstance().getReference().child("details");
+        dbRef = FirebaseDatabase.getInstance().getReference().child("users");
         member = new details();
         //checking if already logged in
         if (fAuth.getCurrentUser() != null) {
-            Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+            Intent intent = new Intent(MainActivity.this, secondactivity.class);
             startActivity(intent);
             finish();
 
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 //setting obj of member
                 member.setName(na);
                 member.setReg(Integer.parseInt(rn));
+                member.setEmail(em);
                 //pushing object in database
                 dbRef.push().setValue(member);
                 //creating user with email password
@@ -100,8 +101,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            String userId = fAuth.getCurrentUser().getUid();
+                            dbRef.child(userId).setValue(member);
                             Toast.makeText(MainActivity.this, "user created", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                            Intent intent = new Intent(MainActivity.this, secondactivity.class);
                             startActivity(intent);
                             finish();
                         } else {
