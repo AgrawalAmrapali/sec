@@ -1,5 +1,7 @@
 package saurabh.best.sec;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,11 +14,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 
@@ -31,62 +35,8 @@ public class findPeople extends AppCompatActivity {
 
     ListView userListView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_people);
-
-        userlistReference = FirebaseDatabase.getInstance().getReference().child("users");
-        onStart();
-        userListView = (ListView) findViewById(R.id.userlistview);
 
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        final ValueEventListener userListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                usernamelist = new ArrayList<>((ArrayList) dataSnapshot.getValue());
-                usernamelist.remove(usernameOfCurrentUser());
-                Log.i(TAG, "onDataChange: " + usernamelist.toString());
-                arrayAdapter = new ArrayAdapter(findPeople.this, android.R.layout.simple_list_item_activated_1, usernamelist);
-                userListView.setAdapter(arrayAdapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "onCancelled: ", databaseError.toException());
-                Toast.makeText(findPeople.this, "Failed to load User list.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        };
-        userlistReference.addValueEventListener(userListener);
-
-        mUserListListener = userListener;
-    }
-
-    public String usernameOfCurrentUser() {
-        String email = MainActivity.fAuth.getCurrentUser().getEmail();
-        if (email.contains("@")) {
-            return email.split("@")[0];
-        } else {
-            return email;
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // Remove post value event listener
-        if (mUserListListener != null) {
-            userlistReference.removeEventListener(mUserListListener);
-        }
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,6 +55,35 @@ public class findPeople extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_find_people);
+        ListView listView = findViewById(R.id.userlistview);
+        arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1,usernamelist);
+        listView.setAdapter(arrayAdapter);
+        userlistReference = FirebaseDatabase.getInstance().getReference("users");
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference usersdRef = rootRef.child("users");
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String name = ds.child("name").getValue(String.class);
+                    Log.i("TAG", name);
+                    usernamelist.add(name);
+                    arrayAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        usersdRef.addListenerForSingleValueEvent(eventListener);
+
 
     }
 }
