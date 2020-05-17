@@ -9,6 +9,7 @@ public class details {
     String email;
     String name;
     int reg;
+    int mobileno;
     HashMap<String,Boolean> groups;
     public details() {
     }

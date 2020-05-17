@@ -74,10 +74,16 @@ import java.util.HashMap;
                     String branch = dataSnapshot.child("branch").getValue(String.class);
                     String course = dataSnapshot.child("course").getValue(String.class);
                     Log.d("info", "-_-" + batch);
-                    if (batch != null) {
+                    if (batch != null && batch != 0) {
                         e2.setText(batch.toString());
+                    }
+                    if (branch != null) {
                         e1.setText(branch);
+                    }
+                    if (mobile != null && mobile != 0) {
                         e3.setText(mobile.toString());
+                    }
+                    if (course != null) {
                         e4.setText(course);
                     }
                 }
