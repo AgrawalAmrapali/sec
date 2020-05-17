@@ -7,12 +7,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,11 +28,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 
-
 public class secondactivity extends AppCompatActivity {
     DatabaseReference dRef;
     FirebaseAuth fAuth;
-
+    RadioGroup radioGroup;
+    RadioButton r1, r2;
+    EditText e1;
+    TextView t1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +42,11 @@ public class secondactivity extends AppCompatActivity {
         setContentView(R.layout.activity_secondactivity);
         dRef = FirebaseDatabase.getInstance().getReference();
         fAuth = FirebaseAuth.getInstance();
-
         setTitle("Menu");
         setContentView(R.layout.activity_secondactivity);
         ListView listView = (ListView) findViewById(R.id.listView);
         ArrayList<String> menu = new ArrayList<String>();
+
 
         setTitle("Menu");
         setContentView(R.layout.activity_secondactivity);
@@ -74,23 +80,20 @@ public class secondactivity extends AppCompatActivity {
                     startActivity(intent);
                 } else if (i == 0) {    //calling request function
                     RequestNewGroup();
-                }
-                else if(i == 11){
-                    if(fAuth.getCurrentUser() != null){
+                } else if (i == 11) {
+                    if (fAuth.getCurrentUser() != null) {
                         fAuth.signOut();
-                        startActivity(new Intent(secondactivity.this,MainActivity.class));
+                        startActivity(new Intent(secondactivity.this, MainActivity.class));
                     }
-                }else if(i==6)
-                {
-                    startActivity(new Intent(secondactivity.this,MyGroup.class));
+                } else if (i == 6) {
+                    startActivity(new Intent(secondactivity.this, MyGroup.class));
 
-                }else if (i == 2) {
+                } else if (i == 2) {
                     //Find people
                     Intent intent = new Intent(getApplicationContext(), findPeople.class);
                     intent.putExtra("note", i);
                     startActivity(intent);
                 }
-
 
 
             }
@@ -101,6 +104,11 @@ public class secondactivity extends AppCompatActivity {
         String userId = fAuth.getCurrentUser().getUid();
         groups nGrp = new groups();
         nGrp.setName(s);
+        if (r1.isChecked()) {
+            nGrp.setType("Private");
+        } else {
+            nGrp.setType("Public");
+        }
         nGrp.addUser(userId);
         DatabaseReference grpRef = dRef.child("groups").push();
         String grpId = grpRef.getKey();
@@ -120,28 +128,40 @@ public class secondactivity extends AppCompatActivity {
 
     }
 
-        private void RequestNewGroup () {   //creating alert box to create group in database
-            AlertDialog.Builder builder = new AlertDialog.Builder(secondactivity.this);
-            builder.setTitle("GROUP NAME");
-            final EditText e1 = new EditText(secondactivity.this);
-            e1.setHint(" e.g. Coding chef");
-            builder.setView(e1);
-            builder.setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    if (TextUtils.isEmpty(e1.getText().toString())) {
-                        Toast.makeText(secondactivity.this, "Enter Group name", Toast.LENGTH_SHORT).show();
-                    } else {
-                        CreateGroup(e1.getText().toString());
-                    }
+    private void RequestNewGroup() {   //creating alert box to create group in database
+        View view = View.inflate(this, R.layout.groupcreatebox, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(secondactivity.this);
+        radioGroup = view.findViewById(R.id.rg);
+        r1 = view.findViewById(R.id.r1);
+        r2 = view.findViewById(R.id.r2);
+        e1 = view.findViewById(R.id.e1);
+        t1 = view.findViewById(R.id.t1);
 
+        // builder.setTitle("GROUP NAME");
+        //final EditText e1 = new EditText(secondactivity.this);
+//            e1.setHint(" e.g. Coding chef");
+        //builder.setView(e1);
+        builder.setView(view);
+        r1.setChecked(true);
+
+        builder.setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (TextUtils.isEmpty(e1.getText().toString())) {
+                    Toast.makeText(secondactivity.this, "Enter Group name", Toast.LENGTH_SHORT).show();
+                } else {
+                    CreateGroup(e1.getText().toString());
                 }
-            }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.cancel();
-                }
-            });
-            builder.show();
-        }
+
+            }
+        }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.show();
+
     }
+
+}

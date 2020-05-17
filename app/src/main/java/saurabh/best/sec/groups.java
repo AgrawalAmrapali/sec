@@ -6,9 +6,17 @@ public class groups {
     private String name;
     private HashMap<String,Boolean> users = new HashMap<>();
     private String id;
-
+    private String type;
     public groups() {
 
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getId() {
