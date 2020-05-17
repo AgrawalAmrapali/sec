@@ -94,6 +94,11 @@ public class secondactivity extends AppCompatActivity {
                     intent.putExtra("note", i);
                     startActivity(intent);
                 }
+                else if (i==1){
+                    Intent intent = new Intent(getApplicationContext(), joinGroupActivity.class);
+                    intent.putExtra("note", i);
+                    startActivity(intent);
+                }
 
 
             }
