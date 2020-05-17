@@ -1,7 +1,5 @@
 package saurabh.best.sec;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,31 +9,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 
-public class findPeople extends AppCompatActivity {
-
+public class joinGroupActivity extends AppCompatActivity {
     private static final String TAG = "UserList";
     private DatabaseReference userlistReference;
     private ValueEventListener mUserListListener;
-    ArrayList<String> usernamelist = new ArrayList<>();
+    ArrayList<String> grouplist = new ArrayList<>();
     ArrayAdapter arrayAdapter;
-
+    ;
 
     ListView userListView;
-
-
 
 
     @Override
@@ -57,24 +49,23 @@ public class findPeople extends AppCompatActivity {
         }
 
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_people);
-        ListView listView = findViewById(R.id.userlistview);
-        arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1,usernamelist);
+        setContentView(R.layout.activity_join_group);
+        ListView listView = findViewById(R.id.findGroup);
+        arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1,grouplist);
         listView.setAdapter(arrayAdapter);
-        userlistReference = FirebaseDatabase.getInstance().getReference("users");
+        userlistReference = FirebaseDatabase.getInstance().getReference("groups");
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference usersdRef = rootRef.child("users");
+        DatabaseReference usersdRef = rootRef.child("groups");
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     String name = ds.child("name").getValue(String.class);
                     Log.i("TAG", name);
-                    usernamelist.add(name);
+                    grouplist.add(name);
                     arrayAdapter.notifyDataSetChanged();
                 }
             }
@@ -83,7 +74,5 @@ public class findPeople extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {}
         };
         usersdRef.addListenerForSingleValueEvent(eventListener);
-
-
     }
 }

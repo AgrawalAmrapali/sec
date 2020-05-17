@@ -35,7 +35,7 @@ public class secondactivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secondactivity);
         dRef = FirebaseDatabase.getInstance().getReference();
-
+        fAuth = FirebaseAuth.getInstance();
 
         setTitle("Menu");
         setContentView(R.layout.activity_secondactivity);
@@ -75,39 +75,55 @@ public class secondactivity extends AppCompatActivity {
                 } else if (i == 0) {    //calling request function
                     RequestNewGroup();
                 }
+                else if(i == 11){
+                    if(fAuth.getCurrentUser() != null){
+                        fAuth.signOut();
+                        startActivity(new Intent(secondactivity.this,MainActivity.class));
+                    }
+                }else if(i==6)
+                {
+                    startActivity(new Intent(secondactivity.this,MyGroup.class));
 
-
-                if (i == 11) {
-                    //logout user
-
-                }
-                if (i == 2) {
+                }else if (i == 2) {
                     //Find people
                     Intent intent = new Intent(getApplicationContext(), findPeople.class);
                     intent.putExtra("note", i);
                     startActivity(intent);
                 }
+                else if (i==1){
+                    Intent intent = new Intent(getApplicationContext(), joinGroupActivity.class);
+                    intent.putExtra("note", i);
+                    startActivity(intent);
+                }
+
+
 
             }
-
         });
     }
 
+    private void CreateGroup(final String s) { //pushing group name to table groups
+        String userId = fAuth.getCurrentUser().getUid();
+        groups nGrp = new groups();
+        nGrp.setName(s);
+        nGrp.addUser(userId);
+        DatabaseReference grpRef = dRef.child("groups").push();
+        String grpId = grpRef.getKey();
+        grpRef.setValue(nGrp).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(secondactivity.this, s + " Group created", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(secondactivity.this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        dRef.child("users").child(userId).child("groups").child(grpId).setValue(true);
 
-        private void CreateGroup(final String s){ //pushing group name to table groups
-            dRef.child("groups").child(s).setValue("").addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(secondactivity.this, s + " Group created", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(secondactivity.this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
 
-        }
+    }
 
         private void RequestNewGroup () {   //creating alert box to create group in database
             AlertDialog.Builder builder = new AlertDialog.Builder(secondactivity.this);
