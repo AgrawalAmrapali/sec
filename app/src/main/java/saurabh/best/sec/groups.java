@@ -4,9 +4,10 @@ import java.util.HashMap;
 
 public class groups {
     private String name;
-    private HashMap<String,Boolean> users = new HashMap<>();
+    private HashMap<String, Boolean> users = new HashMap<>();
     private String id;
     private String type;
+
     public groups() {
 
     }
@@ -42,10 +43,11 @@ public class groups {
     public void setUsers(HashMap<String, Boolean> users) {
         this.users = users;
     }
-    public void addUser(String userId){
-        if(this.users == null){
+
+    public void addUser(String userId) {
+        if (this.users == null) {
             this.users = new HashMap<>();
         }
-        this.users.put(userId,true);
+        this.users.put(userId, true);
     }
 }

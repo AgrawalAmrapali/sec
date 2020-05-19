@@ -36,8 +36,6 @@ public class findPeople extends AppCompatActivity {
     ListView userListView;
 
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -63,7 +61,7 @@ public class findPeople extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_people);
         ListView listView = findViewById(R.id.userlistview);
-        arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1,usernamelist);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, usernamelist);
         listView.setAdapter(arrayAdapter);
         userlistReference = FirebaseDatabase.getInstance().getReference("users");
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
@@ -71,7 +69,7 @@ public class findPeople extends AppCompatActivity {
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String name = ds.child("name").getValue(String.class);
                     Log.i("TAG", name);
                     usernamelist.add(name);
@@ -80,7 +78,8 @@ public class findPeople extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         };
         usersdRef.addListenerForSingleValueEvent(eventListener);
 

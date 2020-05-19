@@ -53,6 +53,7 @@ public class secondactivity extends AppCompatActivity {
         //creating list in a list view
         listView = (ListView) findViewById(R.id.listView);
         menu = new ArrayList<String>();
+        menu.add("Event list");
         menu.add("Create group");
         menu.add("Join group");
         menu.add("Find people");
@@ -93,8 +94,7 @@ public class secondactivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), findPeople.class);
                     intent.putExtra("note", i);
                     startActivity(intent);
-                }
-                else if (i==1){
+                } else if (i == 1) {
                     Intent intent = new Intent(getApplicationContext(), joinGroupActivity.class);
                     intent.putExtra("note", i);
                     startActivity(intent);

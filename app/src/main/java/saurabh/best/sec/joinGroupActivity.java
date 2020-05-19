@@ -1,5 +1,6 @@
 package saurabh.best.sec;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,9 +8,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,9 +29,10 @@ public class joinGroupActivity extends AppCompatActivity {
     private static final String TAG = "UserList";
     private DatabaseReference userlistReference;
     private ValueEventListener mUserListListener;
-    ArrayList<String> grouplist = new ArrayList<>();
-    ArrayAdapter arrayAdapter;
-    ;
+    private FirebaseAuth fAuth;
+    ArrayList<Group> grouplist = new ArrayList<>();
+    GrpListAdapter arrayAdapter;
+
 
     ListView userListView;
 
@@ -49,30 +56,69 @@ public class joinGroupActivity extends AppCompatActivity {
         }
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_group);
-        ListView listView = findViewById(R.id.findGroup);
-        arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1,grouplist);
+        final ListView listView = findViewById(R.id.findGroup);
+        fAuth = FirebaseAuth.getInstance();
+        final String userid = fAuth.getCurrentUser().getUid();
+        arrayAdapter = new GrpListAdapter(this, R.layout.grplistadapter, grouplist);
         listView.setAdapter(arrayAdapter);
-        userlistReference = FirebaseDatabase.getInstance().getReference("groups");
+        userlistReference = FirebaseDatabase.getInstance().getReference("users");
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference usersdRef = rootRef.child("groups");
+        final DatabaseReference groupsdRef = rootRef.child("groups");
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Group g = grouplist.get(i);
+                if (g.getType().equals("Public")) {
+                    groupsdRef.child(g.getId()).child("users").child(userid).setValue(true);
+
+                    userlistReference.child(userid).child("groups").child(g.getId()).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(joinGroupActivity.this, "You joined group successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+
+                } else {
+                    Toast.makeText(joinGroupActivity.this, "Sorry Group is private.Need to send request.feature under development", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String name = ds.child("name").getValue(String.class);
-                    Log.i("TAG", name);
-                    grouplist.add(name);
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                    String gid = ds.getKey();
+                    Object val = ds.child("users").child(userid).getValue();
+                    if (val == null) {
+                        Group g = ds.getValue(Group.class);
+                        g.setId(gid);
+                        grouplist.add(g);
+                    }
+                    //String name = ds.child("name").getValue(String.class);
+                    //Log.i("TAG", name);
+
                     arrayAdapter.notifyDataSetChanged();
                 }
             }
 
+
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         };
-        usersdRef.addListenerForSingleValueEvent(eventListener);
+        groupsdRef.addListenerForSingleValueEvent(eventListener);
     }
+
 }

@@ -28,14 +28,14 @@ public class MainActivity2 extends AppCompatActivity {
         member = new details();
         fAuth = FirebaseAuth.getInstance();
 
-            b1 = findViewById(R.id.b1);
-            b1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FirebaseAuth.getInstance().signOut();
-                }
-            });
+        b1 = findViewById(R.id.b1);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+            }
+        });
 
 
-        }
     }
+}

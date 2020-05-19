@@ -10,7 +10,8 @@ public class details {
     String name;
     int reg;
     int mobileno;
-    HashMap<String,Boolean> groups;
+    HashMap<String, Boolean> groups;
+
     public details() {
     }
 
