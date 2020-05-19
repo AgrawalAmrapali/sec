@@ -49,18 +49,24 @@ public class MessageActivity extends AppCompatActivity {
         final String userid = fAuth.getCurrentUser().getUid();
         // Recycler View
         final RecyclerView rc = findViewById(R.id.r1);
+        //choosing adapter for msglist
         final Message_Adapter msgadapter = new Message_Adapter(this, this.messages, userid);
+        //choosing layout for showing messages
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        //setting how the msgs popup
         layoutManager.setStackFromEnd(true);
+        //setting layout for showing messages
         rc.setLayoutManager(layoutManager);
+        //setting adapter for msglist
         rc.setAdapter(msgadapter);
 
-        // Group Name
+        // referencing the messge activity elements
         grp_name = findViewById(R.id.t1);
         send_arrow = findViewById(R.id.ib1);
         send_msg = findViewById(R.id.e1);
         Bundle bundle = getIntent().getExtras();
 //      Group g= (Group)bundle.getSerializable("group");
+        //getting object of group clicked
         Group g = (Group) getIntent().getSerializableExtra("group");
 
         grp_name.setText(g.getName());
@@ -74,6 +80,7 @@ public class MessageActivity extends AppCompatActivity {
                 usersRef.child(userid).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //pushing message into groups->messages->(msg,senderid,sender name)
                         Messages message = new Messages();
                         message.setName((String) dataSnapshot.getValue());
                         message.setSenderid(userid);
@@ -90,31 +97,11 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
-//        dRef.child(g.getId()).child("messages").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                Log.d("","Adding Message");
-//                Iterator<DataSnapshot> ds = dataSnapshot.getChildren().iterator();
-////                messages.clear();
-//                while(ds.hasNext()) {
-//                    Messages m = (Messages) ds.next().getValue(Messages.class);
-//                    messages.add(m);
-//                    Log.d("", m.getName());
-//                }
-//                msgadapter.notifyDataSetChanged();
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
+
         dRef.child(g.getId()).child("messages").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+               //showing messages from database
                 Messages m = dataSnapshot.getValue(Messages.class);
                 messages.add(m);
                 msgadapter.notifyDataSetChanged();

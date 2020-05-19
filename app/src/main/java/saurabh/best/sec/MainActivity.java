@@ -95,8 +95,6 @@ public class MainActivity extends AppCompatActivity {
                 member.setName(na);
                 member.setReg(Integer.parseInt(rn));
                 member.setEmail(em);
-                //pushing object in database
-//                dbRef.push().setValue(member);
                 //creating user with email password
                 fAuth.createUserWithEmailAndPassword(em, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

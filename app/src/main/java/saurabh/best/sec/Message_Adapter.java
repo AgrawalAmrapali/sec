@@ -26,13 +26,13 @@ public class Message_Adapter extends RecyclerView.Adapter<Message_Adapter.ViewHo
     public int getItemCount() {
         return this.msgList.size();
     }
-
+   //constructor of adapter
     public Message_Adapter(Context mContext, List<Messages> msgList, String currentUserId) {
         this.mContext = mContext;
         this.msgList = msgList;
         this.currentUserId = currentUserId;
     }
-
+     //setting up view holder to hold  view
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView text;
 
@@ -46,7 +46,7 @@ public class Message_Adapter extends RecyclerView.Adapter<Message_Adapter.ViewHo
             return text;
         }
     }
-
+  //creating view in viewholder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,7 +63,7 @@ public class Message_Adapter extends RecyclerView.Adapter<Message_Adapter.ViewHo
         return vh;
 
     }
-
+//getting who send the msg(user or other members )
     @Override
     public int getItemViewType(int position) {
         Log.d("", msgList.get(position).getName());
@@ -73,7 +73,7 @@ public class Message_Adapter extends RecyclerView.Adapter<Message_Adapter.ViewHo
             return MESSAGE_TYPE_LEFT;
         }
     }
-
+//binding values to the view
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Log.d("", "Bind View Holder");

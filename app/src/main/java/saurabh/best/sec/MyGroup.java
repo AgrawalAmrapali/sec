@@ -95,9 +95,7 @@ public class MyGroup extends AppCompatActivity {
 
     private void listview(ArrayList<Group> grpnamelist) {
         ListView listView = (ListView) findViewById(R.id.listView);
-        //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, grpnamelist);
         GrpListAdapter grpadapter = new GrpListAdapter(this, R.layout.grplistadapter, grpnamelist);
-        // listView.setAdapter(arrayAdapter);
         listView.setAdapter(grpadapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

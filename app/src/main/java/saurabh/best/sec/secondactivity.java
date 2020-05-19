@@ -141,11 +141,6 @@ public class secondactivity extends AppCompatActivity {
         r2 = view.findViewById(R.id.r2);
         e1 = view.findViewById(R.id.e1);
         t1 = view.findViewById(R.id.t1);
-
-        // builder.setTitle("GROUP NAME");
-        //final EditText e1 = new EditText(secondactivity.this);
-//            e1.setHint(" e.g. Coding chef");
-        //builder.setView(e1);
         builder.setView(view);
         r1.setChecked(true);
 

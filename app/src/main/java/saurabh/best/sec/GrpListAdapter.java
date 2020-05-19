@@ -30,7 +30,7 @@ public class GrpListAdapter extends ArrayAdapter<Group> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        //return super.getView(position, convertView, parent);
+
         String name = getItem(position).getName();
         String type = getItem(position).getType();
         String id = getItem(position).getId();

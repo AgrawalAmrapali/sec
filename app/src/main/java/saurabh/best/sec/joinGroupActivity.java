@@ -39,6 +39,7 @@ public class joinGroupActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //setting up logout view
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
@@ -63,7 +64,9 @@ public class joinGroupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_join_group);
         final ListView listView = findViewById(R.id.findGroup);
         fAuth = FirebaseAuth.getInstance();
+        //getting current userid
         final String userid = fAuth.getCurrentUser().getUid();
+        //setting adapter for join group list
         arrayAdapter = new GrpListAdapter(this, R.layout.grplistadapter, grouplist);
         listView.setAdapter(arrayAdapter);
         userlistReference = FirebaseDatabase.getInstance().getReference("users");
@@ -73,6 +76,7 @@ public class joinGroupActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Group g = grouplist.get(i);
+                //checking group type
                 if (g.getType().equals("Public")) {
                     groupsdRef.child(g.getId()).child("users").child(userid).setValue(true);
 
@@ -101,14 +105,12 @@ public class joinGroupActivity extends AppCompatActivity {
 
                     String gid = ds.getKey();
                     Object val = ds.child("users").child(userid).getValue();
+                   //checking if user exist in group or not
                     if (val == null) {
                         Group g = ds.getValue(Group.class);
                         g.setId(gid);
                         grouplist.add(g);
                     }
-                    //String name = ds.child("name").getValue(String.class);
-                    //Log.i("TAG", name);
-
                     arrayAdapter.notifyDataSetChanged();
                 }
             }

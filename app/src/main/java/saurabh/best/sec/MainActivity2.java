@@ -32,6 +32,7 @@ public class MainActivity2 extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //signing out using firebase authorisation
                 FirebaseAuth.getInstance().signOut();
             }
         });
