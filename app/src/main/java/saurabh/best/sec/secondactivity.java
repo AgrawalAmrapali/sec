@@ -75,26 +75,26 @@ public class secondactivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 10) {
+                if (i == 11) {
                     Intent intent = new Intent(getApplicationContext(), thirdactivity.class);
                     intent.putExtra("note", i);
                     startActivity(intent);
-                } else if (i == 0) {    //calling request function
+                } else if (i == 1) {    //calling request function
                     RequestNewGroup();
-                } else if (i == 11) {
+                } else if (i == 12) {
                     if (fAuth.getCurrentUser() != null) {
                         fAuth.signOut();
                         startActivity(new Intent(secondactivity.this, MainActivity.class));
                     }
-                } else if (i == 6) {
+                } else if (i == 7) {
                     startActivity(new Intent(secondactivity.this, MyGroup.class));
 
-                } else if (i == 2) {
+                } else if (i == 3) {
                     //Find people
                     Intent intent = new Intent(getApplicationContext(), findPeople.class);
                     intent.putExtra("note", i);
                     startActivity(intent);
-                } else if (i == 1) {
+                } else if (i == 2) {
                     Intent intent = new Intent(getApplicationContext(), joinGroupActivity.class);
                     intent.putExtra("note", i);
                     startActivity(intent);
